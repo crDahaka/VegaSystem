@@ -21,5 +21,6 @@ namespace VegaSystem
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .Build();
+                
     }
 }
