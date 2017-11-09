@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace VegaSystem.Migrations
 {
-    public partial class InitialModel : Migration
+    public partial class ApplyConstraints : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +15,7 @@ namespace VegaSystem.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -23,19 +23,19 @@ namespace VegaSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Model",
+                name: "Models",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     MakeId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Model", x => x.ID);
+                    table.PrimaryKey("PK_Models", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_Model_Makes_MakeId",
+                        name: "FK_Models_Makes_MakeId",
                         column: x => x.MakeId,
                         principalTable: "Makes",
                         principalColumn: "Id",
@@ -43,15 +43,15 @@ namespace VegaSystem.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Model_MakeId",
-                table: "Model",
+                name: "IX_Models_MakeId",
+                table: "Models",
                 column: "MakeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Model");
+                name: "Models");
 
             migrationBuilder.DropTable(
                 name: "Makes");

@@ -1,12 +1,20 @@
 namespace VegaSystem.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    [Table("Models")]
     public class Model
     {
         public int ID { get; set; }
+        
+        [Required]
+        [StringLength(255)]
         public string Name { get; set; }
-        public Make Make { get; set; }
-        public int MakeId { get; set; }
 
+        public Make Make { get; set; }
+        
+        public int MakeId { get; set; }
 
     }
 }
