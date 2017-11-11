@@ -1,4 +1,4 @@
-namespace VegaSystem.Models
+namespace VegaSystem.Entities
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;

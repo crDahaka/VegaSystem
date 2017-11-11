@@ -1,4 +1,4 @@
-namespace VegaSystem.Models
+namespace VegaSystem.Entities
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
