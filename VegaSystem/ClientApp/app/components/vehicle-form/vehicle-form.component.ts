@@ -1,3 +1,4 @@
+import { MakeService } from './../../services/make.service';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 @Component({
@@ -8,9 +9,16 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class VehicleFormComponent implements OnInit {
 
-  constructor() { }
+ makes;
+
+  constructor(private makeService: MakeService) { }
 
   ngOnInit() {
+
+    this.makeService.getMakes().subscribe(makes => { 
+      this.makes = makes; 
+      console.log("MAKES", this.makes);      
+    });
   }
 
 }
