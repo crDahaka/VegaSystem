@@ -9,6 +9,7 @@ namespace VegaSystem
     using VegaSystem.Persistence;
     using AutoMapper;
     using VegaSystem.Persistence.Repositories;
+    using VegaSystem.Persistence.UnitOfWork;
 
     public class Startup
     {
@@ -23,6 +24,7 @@ namespace VegaSystem
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper();
 
