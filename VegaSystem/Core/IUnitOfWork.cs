@@ -1,4 +1,4 @@
-namespace VegaSystem.Persistence.UnitOfWork
+namespace VegaSystem.Core
 {
     using System.Threading.Tasks;
 

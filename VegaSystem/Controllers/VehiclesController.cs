@@ -5,11 +5,9 @@ namespace VegaSystem.Controllers
     using Microsoft.AspNetCore.Mvc;
     using AutoMapper;
     using VegaSystem.Entities;
-    using VegaSystem.Persistence;
     using VegaSystem.Resources;
-    using Microsoft.EntityFrameworkCore;
     using VegaSystem.Persistence.Repositories;
-    using VegaSystem.Persistence.UnitOfWork;
+    using VegaSystem.Core;
 
     [Route("/api/vehicles")]
     public class VehiclesController : Controller

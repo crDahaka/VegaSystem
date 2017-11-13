@@ -10,6 +10,7 @@ namespace VegaSystem
     using AutoMapper;
     using VegaSystem.Persistence.Repositories;
     using VegaSystem.Persistence.UnitOfWork;
+    using VegaSystem.Core;
 
     public class Startup
     {
