@@ -2,8 +2,8 @@ namespace VegaSystem.Controllers
 {
     using System;
     using System.Threading.Tasks;
-    using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
+    using AutoMapper;
     using VegaSystem.Entities;
     using VegaSystem.Persistence;
     using VegaSystem.Resources;
@@ -18,11 +18,15 @@ namespace VegaSystem.Controllers
         {
             this.context = context;
             this.mapper = mapper;
-
         }
 
         public async Task<IActionResult> CreateVehicle([FromBody] VehicleResource vehicleResource)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
             var vehicle = mapper.Map<VehicleResource, Vehicle>(vehicleResource);
             vehicle.LastUpdate = DateTime.Now;
 
