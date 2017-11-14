@@ -1,8 +1,10 @@
 namespace VegaSystem.Persistence.Repositories
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
+    using VegaSystem.Core;
     using VegaSystem.Entities;
 
     public class VehicleRepository : IVehicleRepository
@@ -23,9 +25,15 @@ namespace VegaSystem.Persistence.Repositories
             return await context.Vehicles.Include(v => v.Features).ThenInclude(vf => vf.Feature).Include(v => v.Model).ThenInclude(m => m.Make).SingleOrDefaultAsync(v => v.Id == id);
         }
 
-        public async Task<IEnumerable<Vehicle>> GetVehicles()
+        public async Task<IEnumerable<Vehicle>> GetVehicles(Filter filter)
         {
-            return await context.Vehicles.Include(v => v.Model).ThenInclude(m => m.Make).Include(v => v.Features).ThenInclude(vf => vf.Feature).ToListAsync();
+            var query = context.Vehicles.Include(v => v.Model).ThenInclude(m => m.Make).Include(v => v.Features).ThenInclude(vf => vf.Feature).AsQueryable();
+
+            if (filter.MakeId.HasValue) {
+                query = query.Where(v => v.Model.MakeId == filter.MakeId);
+            }
+
+            return await query.ToListAsync();
         }
 
         public void Add(Vehicle vehicle)

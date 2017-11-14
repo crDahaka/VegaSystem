@@ -2,13 +2,14 @@ namespace VegaSystem.Persistence.Repositories
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using VegaSystem.Core;
     using VegaSystem.Entities;
 
     public interface IVehicleRepository
     {
         Task<Vehicle> GetVehicle(int id, bool includeRelated = true);
 
-        Task<IEnumerable<Vehicle>> GetVehicles();
+        Task<IEnumerable<Vehicle>> GetVehicles(Filter filter);
 
         void Add(Vehicle vehicle);
 
