@@ -8,6 +8,7 @@ namespace VegaSystem.Controllers
     using VegaSystem.Resources;
     using VegaSystem.Persistence.Repositories;
     using VegaSystem.Core;
+    using System.Collections.Generic;
 
     [Route("/api/vehicles")]
     public class VehiclesController : Controller
@@ -21,6 +22,14 @@ namespace VegaSystem.Controllers
             this.unitOfWork = unitOfWork;
             this.repository = repository;
             this.mapper = mapper;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<VehicleResource>> GetVehicles()
+        {
+            var vehicles = await repository.GetVehicles();
+
+            return mapper.Map<IEnumerable<Vehicle>, IEnumerable<VehicleResource>>(vehicles);
         }
 
         [HttpPost]
