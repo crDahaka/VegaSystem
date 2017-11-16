@@ -30,9 +30,7 @@ export class VehicleFormComponent implements OnInit {
   };
 
   constructor(private route: ActivatedRoute, private router: Router, private vehicleService: VehicleService, private toastyService: ToastyService) {
-      route.params.subscribe(p => {
-        this.vehicle.id = +p['id'];
-      });
+      route.params.subscribe(p => { this.vehicle.id = +p['id'] || 0; });
     }
 
   ngOnInit() {
@@ -89,30 +87,16 @@ export class VehicleFormComponent implements OnInit {
   }
 
   submit() {
-    if (this.vehicle.id) {
-      this.vehicleService.update(this.vehicle)
-        .subscribe(x => {
-          this.toastyService.success({
-            title: 'Success', 
-            msg: 'The vehicle was sucessfully updated.',
-            theme: 'bootstrap',
-            showClose: true,
-            timeout: 5000
-          });
-        });
-    }
-    else {
-      this.vehicleService.create(this.vehicle)
-        .subscribe(x => console.log(x));
-    }
-  }
-
-  delete() {
-    if (confirm("Are you sure?")) {
-      this.vehicleService.delete(this.vehicle.id)
-        .subscribe(x => {
-          this.router.navigate(['/home']);
-        });
-    }
+    var result$ = (this.vehicle.id) ? this.vehicleService.update(this.vehicle) : this.vehicleService.create(this.vehicle);
+    result$.subscribe(vehicle => {
+      this.toastyService.success({
+        title: 'Success', 
+        msg: 'The vehicle was sucessfully updated.',
+        theme: 'bootstrap',
+        showClose: true,
+        timeout: 5000
+      });
+      this.router.navigate(['/vehicles', vehicle.id])
+    });
   }
 }
