@@ -32,8 +32,14 @@ namespace VegaSystem.Persistence.Repositories
         {
             var query = context.Vehicles.Include(v => v.Model).ThenInclude(m => m.Make).Include(v => v.Features).ThenInclude(vf => vf.Feature).AsQueryable();
 
-            if (queryObj.IsSortAscending) {
-                query = query.Where(v => v.Model.MakeId == queryObj.MakeId);
+            if (queryObj.MakeId.HasValue) 
+            {
+                query = query.Where(v => v.Model.MakeId == queryObj.MakeId.Value);
+            }
+
+            if (queryObj.ModelId.HasValue) 
+            {
+                query = query.Where(v => v.ModelId == queryObj.ModelId.Value);
             }
 
             var columnsMap = new Dictionary<string, Expression<Func<Vehicle, object>>>()
@@ -44,11 +50,11 @@ namespace VegaSystem.Persistence.Repositories
             };
 
             query = query.ApplyOrdering(queryObj, columnsMap);
-           
+
             return await query.ToListAsync();
         }
 
-       
+
 
         public void Add(Vehicle vehicle)
         {
