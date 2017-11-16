@@ -11,6 +11,7 @@ namespace VegaSystem
     using VegaSystem.Persistence.Repositories;
     using VegaSystem.Persistence.UnitOfWork;
     using VegaSystem.Core;
+    using VegaSystem.Core.Entities;
 
     public class Startup
     {
@@ -24,7 +25,10 @@ namespace VegaSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<PhotoSettings>(Configuration.GetSection("PhotoSettings"));
+
             services.AddScoped<IVehicleRepository, VehicleRepository>();
+            services.AddScoped<IPhotoRepository, PhotoRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper();

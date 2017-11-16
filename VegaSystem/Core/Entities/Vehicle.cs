@@ -5,6 +5,7 @@ namespace VegaSystem.Entities
     using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using VegaSystem.Core.Entities;
 
     [Table("Vehicles")]
     public class Vehicle
@@ -32,9 +33,12 @@ namespace VegaSystem.Entities
 
         public ICollection<VehicleFeature> Features { get; set; }
 
+        public ICollection<Photo> Photos { get; set; }
+
         public Vehicle()
         {
             Features = new Collection<VehicleFeature>();
+            Photos = new Collection<Photo>();
         }
     }
 }

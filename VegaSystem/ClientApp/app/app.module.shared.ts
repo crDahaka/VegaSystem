@@ -15,6 +15,7 @@ import { CounterComponent } from './components/counter/counter.component';
 import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.component';
 import { VehicleService } from './services/vehicle.service';
 import { ToastyService, ToastyModule } from 'ng2-toasty';
+import { PhotoService } from './services/photo.service';
 
 @NgModule({
     declarations: [
@@ -46,7 +47,8 @@ import { ToastyService, ToastyModule } from 'ng2-toasty';
         ])
     ],
     providers: [
-        VehicleService
+        VehicleService,
+        PhotoService
     ]
 })
 export class AppModuleShared {
