@@ -9,7 +9,7 @@ namespace VegaSystem.Persistence.Repositories
     {
         Task<Vehicle> GetVehicle(int id, bool includeRelated = true);
 
-        Task<IEnumerable<Vehicle>> GetVehicles(VehicleQuery filter);
+        Task<QueryResult<Vehicle>> GetVehicles(VehicleQuery filter);
 
         void Add(Vehicle vehicle);
 
