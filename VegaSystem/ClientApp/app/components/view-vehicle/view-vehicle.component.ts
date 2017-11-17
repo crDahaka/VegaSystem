@@ -1,5 +1,6 @@
+import { ProgressService } from './../../services/progress.service';
 import { PhotoService } from './../../services/photo.service';
-import { Component, OnInit, ViewEncapsulation, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ElementRef, ViewChild, NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastyService } from 'ng2-toasty';
 import { VehicleService } from '../../services/vehicle.service';
@@ -13,9 +14,16 @@ export class ViewVehicleComponent implements OnInit {
   vehicle: any;
   vehicleId: number;
   photos: any[];
+  progress: any;
 
-  constructor(private route: ActivatedRoute, private router: Router, private toasty: ToastyService, 
-              private vehicleService: VehicleService, private photoService: PhotoService) {
+  constructor(
+    private zone: NgZone,
+    private route: ActivatedRoute,
+    private router: Router,
+    private toasty: ToastyService,
+    private vehicleService: VehicleService,
+    private photoService: PhotoService,
+    private progressService: ProgressService) {
 
     route.params.subscribe(p => {
       this.vehicleId = +p['id'];
@@ -24,7 +32,7 @@ export class ViewVehicleComponent implements OnInit {
         return;
       }
     });
-   }
+  }
 
   ngOnInit() {
 
@@ -47,10 +55,26 @@ export class ViewVehicleComponent implements OnInit {
   }
 
   uploadPhoto() {
-    var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+    this.progressService.startTracking()
+      .subscribe(progress => {
+        console.log(progress);
+        this.zone.run(() => {
+          this.progress = progress;
+        })
+      });
 
-    //TODO:
-    // Get the uploaded photo (nativeElement.files[0])
-    this.photoService.upload(this.vehicleId, nativeElement.files).subscribe(photo => { this.photos.push(photo); });
+    var nativeElement: HTMLInputElement = this.fileInput.nativeElement;
+    var file = nativeElement.files[0];
+    nativeElement.value = '';
+
+    this.photoService.upload(this.vehicleId, file).subscribe(photo => { this.photos.push(photo); }, err => {
+      this.toasty.error({
+        title: 'Error',
+        msg: err.text(),
+        theme: 'bootstrap',
+        showClose: true,
+        timeout: 5000
+      });
+    });
   }
 }

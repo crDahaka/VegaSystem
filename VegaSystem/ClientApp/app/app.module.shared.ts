@@ -1,11 +1,15 @@
+import { BrowserModule } from '@angular/platform-browser';
+import { AppErrorHandler } from './app.error-handler';
+import { BrowserXhrWithProgress, ProgressService } from './services/progress.service';
 import { ViewVehicleComponent } from './components/view-vehicle/view-vehicle.component';
 import { PaginationComponent } from './components/shared/pagination.component';
 import { VehicleListComponent } from './components/vehicle-list/vehicle-list.component';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, BrowserXhr, JsonpModule } from '@angular/http';
 import { RouterModule } from '@angular/router'
+import * as Raven from 'raven-js'; 
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -16,6 +20,8 @@ import { VehicleFormComponent } from './components/vehicle-form/vehicle-form.com
 import { VehicleService } from './services/vehicle.service';
 import { ToastyService, ToastyModule } from 'ng2-toasty';
 import { PhotoService } from './services/photo.service';
+
+Raven.config('https://e8a3c56a1a644b59834b1059054cdbf8@sentry.io/244594').install();
 
 @NgModule({
     declarations: [
@@ -32,6 +38,8 @@ import { PhotoService } from './services/photo.service';
     imports: [
         CommonModule,
         HttpModule,
+        BrowserModule,
+        JsonpModule,
         FormsModule,
         ToastyModule.forRoot(),
         RouterModule.forRoot([
@@ -47,9 +55,12 @@ import { PhotoService } from './services/photo.service';
         ])
     ],
     providers: [
+        { provide: ErrorHandler, useClass: AppErrorHandler },
+        { provide: BrowserXhr, useClass: BrowserXhrWithProgress },
         VehicleService,
-        PhotoService
-    ]
+        PhotoService,
+        ProgressService
+      ]
 })
 export class AppModuleShared {
 }
