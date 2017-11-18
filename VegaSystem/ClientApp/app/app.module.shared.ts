@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule, BrowserXhr, JsonpModule } from '@angular/http';
 import { RouterModule } from '@angular/router'
 import * as Raven from 'raven-js'; 
+import { ChartModule } from 'angular2-chartjs';
 
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
@@ -41,6 +42,7 @@ Raven.config('https://e8a3c56a1a644b59834b1059054cdbf8@sentry.io/244594').instal
         BrowserModule,
         JsonpModule,
         FormsModule,
+        ChartModule,
         ToastyModule.forRoot(),
         RouterModule.forRoot([
             { path: '', redirectTo: 'vehicles', pathMatch: 'full' },

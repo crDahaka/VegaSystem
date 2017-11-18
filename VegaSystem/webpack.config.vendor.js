@@ -14,6 +14,8 @@ const treeShakableModules = [
     '@angular/router',
     'font-awesome/css/font-awesome.css',
     'ng2-toasty',
+    'chart.js',
+    'angular2-chartjs',
     'ng2-toasty/bundles/style-bootstrap.css',
     'underscore',
 ];
